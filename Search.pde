@@ -45,15 +45,25 @@ class Search {
   boolean finished;
   Node curr;
   PriorityQueue<Node> q;
+  String algorithm;
 
-  Search(Grid map){
+  Search(Grid map, String algorithm){
     this.map = map;
     started = false;
     finished = false;
+    this.algorithm = algorithm;
   }
 
   void start(){
-    q = new PriorityQueue<Node>(new AStarComparator());
+
+    if (algorithm == "Dijkstra's"){
+      q = new PriorityQueue<Node>(new UCSComparator());
+    } else if (algorithm == "Greedy"){
+      q = new PriorityQueue<Node>(new GreedyComparator());
+    } else {
+      q = new PriorityQueue<Node>(new AStarComparator());
+    }
+
     started = true;
     curr = new Node(map.start, 0);
     map.markVisited(curr.location);
