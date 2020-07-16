@@ -1,0 +1,106 @@
+import java.util.ArrayDeque;
+import java.util.PriorityQueue;
+import java.util.Comparator;
+
+class UCSComparator implements Comparator<Node>{ 
+  public int compare(Node a, Node b) { 
+    if (a.pathCost < b.pathCost) {
+      return -1; 
+    }
+    else if (a.pathCost > b.pathCost) {
+      return 1;
+    }
+    return 0; 
+  } 
+}
+
+
+class AStarComparator implements Comparator<Node>{ 
+  public int compare(Node a, Node b) { 
+    if (a.total < b.total) {
+      return -1; 
+    }
+    else if (a.total > b.total) {
+      return 1;
+    }
+    return 0; 
+  } 
+}
+
+class GreedyComparator implements Comparator<Node>{ 
+  public int compare(Node a, Node b) { 
+    if (a.heuristic < b.heuristic) {
+      return -1; 
+    }
+    else if (a.heuristic > b.heuristic) {
+      return 1;
+    }
+    return 0; 
+  } 
+}
+
+class Search {
+  Grid map;
+  boolean started;
+  boolean finished;
+  Node curr;
+  PriorityQueue<Node> q;
+
+  Search(Grid map){
+    this.map = map;
+    started = false;
+    finished = false;
+  }
+
+  void start(){
+    q = new PriorityQueue<Node>(new AStarComparator());
+    started = true;
+    curr = new Node(map.start, 0);
+    map.markVisited(curr.location);
+    if (map.atEnd(curr.location)) {
+      finished = true;
+    }
+    q.add(curr);
+  }
+
+  void update() {
+    if (finished){
+      return;
+    }
+
+    if (!started){
+      start();
+      return;
+    }
+
+    if (q.isEmpty()){
+      finished = true;
+      return;
+    }
+
+    curr = q.remove();
+    map.removeFringe(curr.location);
+
+    for (int[] neighbour : map.getNeighbours(curr.location)){
+      Node child = new Node(neighbour, curr.pathCost + 1, map.manhattan(neighbour));
+      map.markVisited(child.location);
+      child.parent = curr;
+
+      if (map.atEnd(child.location)) {
+        finished = true;
+
+        addPath(child);
+        return;
+      }
+      map.markFringe(child.location);
+      q.add(child);
+    }
+  }
+
+  void addPath(Node lastNode){
+    while (lastNode != null){
+      map.markPath(lastNode.location);
+      lastNode = lastNode.parent;
+    }
+  }
+}
