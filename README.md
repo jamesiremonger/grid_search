@@ -1,2 +1,2 @@
 # grid_search
-A pathfinding visualisation. Developed in processing.
+A pathfinding visualisation, developed in processing.
