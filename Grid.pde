@@ -72,6 +72,18 @@ class Grid {
 
     if (!withinGrid(row,column)) return;
 
+    if (arr[row][column] == 's') {
+      arr[row][column] = 0;
+      start = null;
+      return;
+    }
+
+    if (arr[row][column] == 'e') {
+      arr[row][column] = 0;
+      end = null;
+      return;
+    }
+
     if (start == null){
       placeStart(row, column);
     } else if (end == null){
@@ -79,6 +91,9 @@ class Grid {
     } else {
       ready = true;
     }
+
+        
+
   }
 
   void placeStart(int row, int column){
@@ -232,12 +247,32 @@ class Grid {
     return (abs(location[0] - end[0]) + abs(location[1] - end[1]));
   }
 
-  void clear(){
+  void hardClear(){
+    ready = false;
     start = null;
     end = null;
-    ready = false;
 
     arr = new int[h][w];
     visited = new boolean[h][w];
+  }
+
+  void softClear(){
+    // start = null;
+    // end = null;
+    ready = false;
+
+    visited = new boolean[h][w];
+
+    clear(arr);
+  }
+
+  void clear(int[][] arr){
+    for (int i = 0; i < h; i++){
+      for (int j = 0; j < w; j++){
+        if (arr[i][j] != 's' && arr[i][j] != 'e' && arr[i][j] != 'x'){
+          arr[i][j] = 0;
+        }
+      }
+    }
   }
 }

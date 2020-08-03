@@ -10,23 +10,29 @@ UiBooster booster;
 
 void setup() {
   size(1080,720);
-  map = new Grid(54,36);
+  map = new Grid(36,24);
 
   new UiBooster()
-    .createForm("Your settings")
+    .createForm("Settings")
     .addSelection("Search Algorithm", "Dijkstra's", "Greedy", "A*")
+    .addButton("Clear", new Runnable(){
+      public void run(){
+        clear();
+      }
+    })
     .setChangeListener(new FormElementChangeListener() {
       public void onChange(FormElement element, Object value) {
         searchAlgorithm = element.asString();
-        println("Algorthm " + searchAlgorithm);
       }
     })
+
     .run();
 }
 
 void clear(){
-  println("clear");
+  map.hardClear();
 }
+
 
 void draw() {
   background(255);
@@ -41,7 +47,6 @@ void draw() {
   if (searcher != null){
     searcher.update();
   }
-  println(frameRate);
 }
 
 void mouseClicked() {
@@ -51,10 +56,11 @@ void mouseClicked() {
     } else {
       map.placeBlock(mouseX,mouseY);
     }
+    return;
   }
 
   if (searcher != null && searcher.finished){
-    map.clear();
+    map.softClear();
     searcher = null;
   }
 }
