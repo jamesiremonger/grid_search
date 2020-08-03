@@ -59,6 +59,10 @@ void mouseClicked() {
     return;
   }
 
+  if (searcher.started) {
+    searcher.pause();
+  }
+
   if (searcher != null && searcher.finished){
     map.softClear();
     searcher = null;

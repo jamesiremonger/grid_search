@@ -46,11 +46,13 @@ class Search {
   Node curr;
   PriorityQueue<Node> q;
   String algorithm;
+  boolean paused;
 
   Search(Grid map, String algorithm){
     this.map = map;
     started = false;
     finished = false;
+    paused = false;
     this.algorithm = algorithm;
   }
 
@@ -74,7 +76,8 @@ class Search {
   }
 
   void update() {
-    if (finished){
+
+    if (finished || paused){
       return;
     }
 
@@ -112,5 +115,9 @@ class Search {
       map.markPath(lastNode.location);
       lastNode = lastNode.parent;
     }
+  }
+
+  void pause(){
+    paused = !paused;
   }
 }
