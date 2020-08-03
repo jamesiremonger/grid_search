@@ -1,10 +1,10 @@
-color startCol = #caffbf;
-color endCol = #ffadad;
-color obsCol = #808080;
-color fringeCol = #bdb2ff;
-color visCol = #ffd6a5;
-color pathCol = #9bf6ff;
-color backCol = #ffffff;
+color startCol = #3cada3;
+color endCol = #ed553b;
+color obsCol = #626262;
+color fringeCol = #173f5f;
+color visCol = #21639b;
+color pathCol = #009fbc;
+color backCol = #292929;
 
 class Grid {
   int[][] arr;
@@ -37,7 +37,7 @@ class Grid {
   void draw(){
     for (int i = 0; i < w; i++){
       for (int j = 0; j < h; j++){
-        stroke(170);
+        stroke(20);
         changeFill(j,i);
         rect(boxWidth * i, boxHeight * j, boxWidth, boxHeight);
       }
